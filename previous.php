@@ -1,3 +1,26 @@
+<?php
+    if (isset($_POST['contact'])) {
+        extract($_POST);
+        $to = 'rohitsahu728@gmail.com';
+        $subject = "New Message from site";
+        $from= $email;
+
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+        // Create email headers
+        $headers .= 'From: '.$from."\r\n".
+              'Reply-To: '.$from."\r\n" .
+              'X-Mailer: PHP/' . phpversion();
+        $txt = '
+            <h2>Name: '.$name.' '.$lname.'</h2><br />
+            <h4>Email: '.$email.'</h4><br />
+            <p>Message: '.$message.'</p>
+        ';
+        mail($to,$subject,$txt,$headers);
+        echo "<script>alert('Thanks $name, for writing a message for me. :)'); window.location.assign('')</script>";
+    }
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -467,7 +490,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="text-left text-xs-center">
-                                        <p>Pempered by <a href="//fb.com/rernr/" target="_BLANK">Rohit</a> @ 2020</p>
+                                        <p>Pempered by <a href="//fb.com/rernr/" target="_BLANK">Rohit</a> @ <?php echo date('Y'); ?></p>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
