@@ -161,8 +161,8 @@ export default function Hero() {
           >
             <TypeWriter words={[
               'Senior Software Engineer',
-              'Enterprise Builder',
-              'AI-Powered Developer',
+              'Scalable Systems Developer',
+              'Full-Stack Engineer',
             ]} />
           </motion.div>
 
