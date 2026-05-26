@@ -108,23 +108,6 @@ export default function About() {
               </GlassCard>
             </motion.div>
           </motion.div>
-
-          {/* Years counter — single prominent stat */}
-          <motion.div style={{ x: countersX }}>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3, duration: 0.7 }}
-            >
-              <GlassCard style={{ padding: 'clamp(24px, 3vw, 36px)', textAlign: 'center', maxWidth: 200 }}>
-                <AnimatedCounter target="7" suffix="+" color="#7c6aff" />
-                <div style={{
-                  marginTop: 10, fontSize: 11, color: 'var(--text-muted)',
-                  letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500,
-                }}>Years Experience</div>
-              </GlassCard>
-            </motion.div>
-          </motion.div>
         </div>
 
         {/* Education & Certifications with staggered horizontal slide */}
