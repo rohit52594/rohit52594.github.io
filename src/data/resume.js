@@ -1,6 +1,8 @@
 /**
  * Portfolio content from Rohit_Senior_Software_Engineer.pdf
  */
+import resumePdf from '../assets/Rohit_Senior_Software_Engineer.pdf';
+
 export const profile = {
   name: 'Rohit Sahu',
   title: 'Senior Software Engineer',
@@ -8,7 +10,7 @@ export const profile = {
   email: 'rohitsahu728@gmail.com',
   phone: '+91 84020-81401',
   website: 'https://rohit52594.github.io',
-  resumeUrl: '/Rohit_Senior_Software_Engineer.pdf',
+  resumeUrl: resumePdf,
   summary:
     'Senior Software Engineer with 7 years of experience building scalable enterprise and AI-driven applications using React.js, TypeScript, and Node.js. Experienced in enterprise POS systems, healthcare platforms, legacy modernization, and distributed architectures. Strong expertise in frontend engineering, performance optimization, scalable application design, and AI-assisted development workflows. Experienced leading teams, delivering production-grade solutions, and collaborating across cross-functional environments in agile development ecosystems.',
   social: {
