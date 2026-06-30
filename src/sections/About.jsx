@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { profile, education, certifications } from '../data/resume';
 import GlassCard from '../components/GlassCard';
 import ParallaxLayer from '../components/ParallaxLayer';
+import SectionHeader from '../components/SectionHeader';
 
 /* ─── Animated counting number ─── */
 function AnimatedCounter({ target, suffix = '', color = 'var(--accent-light)' }) {
@@ -46,9 +47,7 @@ export default function About() {
     offset: ['start end', 'end start'],
   });
 
-  const headerY = useTransform(scrollYProgress, [0, 1], [60, -60]);
   const summaryX = useTransform(scrollYProgress, [0, 0.5], [-40, 0]);
-  const countersX = useTransform(scrollYProgress, [0, 0.5], [40, 0]);
 
   return (
     <section id="about" className="section" ref={sectionRef} style={{ position: 'relative', overflow: 'hidden' }}>
@@ -59,13 +58,13 @@ export default function About() {
       }}>
         <span style={{
           fontFamily: 'var(--font-display)', fontSize: 'clamp(8rem, 20vw, 16rem)',
-          fontWeight: 700, color: 'rgba(124, 106, 255, 0.025)', lineHeight: 1, userSelect: 'none',
+          fontWeight: 700, color: 'rgba(200, 255, 45, 0.03)', lineHeight: 1, userSelect: 'none',
         }}>01</span>
       </ParallaxLayer>
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         {/* Header with parallax */}
-        <motion.div style={{ y: headerY }}>
+        <SectionHeader sectionRef={sectionRef}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -76,7 +75,7 @@ export default function About() {
               Building the <span className="text-gradient">future of software</span>
             </h2>
           </motion.div>
-        </motion.div>
+        </SectionHeader>
 
         {/* Two-column: summary (left) + counters (right) */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40, marginTop: 48 }}>
@@ -94,16 +93,22 @@ export default function About() {
                 }}>
                   {profile.summary}
                 </p>
-                {/* Decorative gradient */}
+                {/* Decorative halftone dot clusters */}
                 <div style={{
-                  position: 'absolute', top: -80, right: -80, width: 250, height: 250, borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(124, 106, 255, 0.06) 0%, transparent 70%)',
-                  pointerEvents: 'none',
+                  position: 'absolute', top: -20, right: -20, width: 220, height: 220,
+                  backgroundImage: 'radial-gradient(circle, rgba(200, 255, 45, 0.5) 1px, transparent 1.5px)',
+                  backgroundSize: '12px 12px',
+                  WebkitMaskImage: 'radial-gradient(circle, #000 0%, transparent 65%)',
+                  maskImage: 'radial-gradient(circle, #000 0%, transparent 65%)',
+                  opacity: 0.25, pointerEvents: 'none',
                 }} />
                 <div style={{
-                  position: 'absolute', bottom: -60, left: -60, width: 180, height: 180, borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(54, 215, 199, 0.04) 0%, transparent 70%)',
-                  pointerEvents: 'none',
+                  position: 'absolute', bottom: -20, left: -20, width: 160, height: 160,
+                  backgroundImage: 'radial-gradient(circle, rgba(255, 90, 31, 0.5) 1px, transparent 1.5px)',
+                  backgroundSize: '12px 12px',
+                  WebkitMaskImage: 'radial-gradient(circle, #000 0%, transparent 65%)',
+                  maskImage: 'radial-gradient(circle, #000 0%, transparent 65%)',
+                  opacity: 0.2, pointerEvents: 'none',
                 }} />
               </GlassCard>
             </motion.div>

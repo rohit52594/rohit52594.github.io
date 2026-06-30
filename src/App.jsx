@@ -1,5 +1,5 @@
 import { ScrollProvider } from './context/ScrollContext';
-import ParticleUniverse from './components/three/ParallaxWorld';
+import StippleField from './components/StippleField';
 import Navigation from './components/Navigation';
 import ScrollProgress from './components/ScrollProgress';
 import Hero from './sections/Hero';
@@ -12,7 +12,7 @@ import Contact from './sections/Contact';
 function App() {
   return (
     <ScrollProvider>
-      <ParticleUniverse />
+      <StippleField />
       <ScrollProgress />
       <div style={{ position: 'relative', zIndex: 10 }}>
         <Navigation />
@@ -25,6 +25,7 @@ function App() {
           <Contact />
         </main>
       </div>
+      <div className="grain-overlay" aria-hidden="true" />
     </ScrollProvider>
   );
 }

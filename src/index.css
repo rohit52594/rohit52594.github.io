@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   DESIGN SYSTEM — Dark Cosmic Theme v2
+   DESIGN SYSTEM — Acid Ink / Stipple Theme
    ═══════════════════════════════════════════════ */
 
 /* ---------- CSS Reset ---------- */
@@ -11,44 +11,44 @@
 
 /* ---------- Custom Properties ---------- */
 :root {
-  /* Background layers */
-  --bg-deep: #050510;
-  --bg-primary: #0a0a1a;
-  --bg-elevated: #0f0f2a;
-  --bg-surface: #141432;
+  /* Background layers — warm ink */
+  --bg-deep: #070706;
+  --bg-primary: #0a0a09;
+  --bg-elevated: #111110;
+  --bg-surface: #191917;
 
   /* Glass */
-  --glass-bg: rgba(12, 12, 35, 0.6);
-  --glass-border: rgba(120, 100, 255, 0.1);
-  --glass-hover: rgba(120, 100, 255, 0.25);
-  --glass-blur: 24px;
+  --glass-bg: rgba(14, 14, 12, 0.6);
+  --glass-border: rgba(200, 255, 45, 0.1);
+  --glass-hover: rgba(200, 255, 45, 0.28);
+  --glass-blur: 22px;
 
-  /* Text */
-  --text-primary: #eae8f5;
-  --text-secondary: rgba(234, 232, 245, 0.6);
-  --text-muted: rgba(234, 232, 245, 0.35);
+  /* Text — bone */
+  --text-primary: #f3efe4;
+  --text-secondary: rgba(243, 239, 228, 0.62);
+  --text-muted: rgba(243, 239, 228, 0.36);
 
-  /* Accent palette */
-  --accent: #7c6aff;
-  --accent-light: #a18aff;
-  --accent-glow: rgba(124, 106, 255, 0.35);
-  --accent-dim: rgba(124, 106, 255, 0.08);
+  /* Accent palette — acid lime (signature) */
+  --accent: #c8ff2d;
+  --accent-light: #e0ff7a;
+  --accent-glow: rgba(200, 255, 45, 0.35);
+  --accent-dim: rgba(200, 255, 45, 0.08);
 
-  /* Secondary accents */
-  --cyan: #36d7c7;
-  --cyan-glow: rgba(54, 215, 199, 0.3);
-  --pink: #ff6b9d;
-  --pink-glow: rgba(255, 107, 157, 0.3);
+  /* Secondary accents — ember duotone */
+  --cyan: #ff5a1f;
+  --cyan-glow: rgba(255, 90, 31, 0.32);
+  --pink: #ff8a5c;
+  --pink-glow: rgba(255, 138, 92, 0.3);
   --amber: #ffb347;
 
   /* Gradients */
-  --gradient-hero: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 50%, var(--pink) 100%);
-  --gradient-text: linear-gradient(135deg, var(--accent-light) 0%, var(--cyan) 100%);
-  --gradient-card: linear-gradient(145deg, rgba(124, 106, 255, 0.06), rgba(54, 215, 199, 0.03));
+  --gradient-hero: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+  --gradient-text: linear-gradient(115deg, var(--accent-light) 0%, var(--accent) 45%, var(--cyan) 100%);
+  --gradient-card: linear-gradient(145deg, rgba(200, 255, 45, 0.06), rgba(255, 90, 31, 0.03));
 
   /* Borders */
-  --border-subtle: rgba(124, 106, 255, 0.08);
-  --border-visible: rgba(124, 106, 255, 0.18);
+  --border-subtle: rgba(200, 255, 45, 0.08);
+  --border-visible: rgba(200, 255, 45, 0.2);
 
   /* Spacing */
   --section-padding: clamp(60px, 8vh, 100px);
@@ -74,6 +74,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ---------- Lenis smooth scroll ---------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
 body {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -92,7 +99,7 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 106, 255, 0.3);
+  background: rgba(200, 255, 45, 0.32);
   border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -102,7 +109,7 @@ body {
 /* ---------- Selection ---------- */
 ::selection {
   background: var(--accent);
-  color: white;
+  color: #0a0a09;
 }
 
 /* ---------- Layout ---------- */
@@ -174,7 +181,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-size: clamp(6rem, 15vw, 12rem);
   font-weight: 700;
-  color: rgba(124, 106, 255, 0.03);
+  color: rgba(200, 255, 45, 0.03);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -193,17 +200,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .glass:hover {
   border-color: var(--glass-hover);
-  box-shadow: 0 8px 40px rgba(124, 106, 255, 0.06);
+  box-shadow: 0 8px 40px rgba(200, 255, 45, 0.06);
 }
 
-/* ---------- Section Divider ---------- */
+/* ---------- Section Divider — stippled dot row ---------- */
 .section-divider {
   width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), var(--cyan), transparent);
-  opacity: 0.15;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--accent) 1.1px, transparent 1.4px);
+  background-size: 14px 6px;
+  background-repeat: repeat-x;
+  background-position: center;
+  opacity: 0.35;
   margin: 0 auto;
   max-width: 600px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
 }
 
 /* ---------- Buttons ---------- */
@@ -227,26 +239,28 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent), #6a5adf);
-  color: white;
+  background: var(--accent);
+  color: #0a0a09;
+  font-weight: 700;
   box-shadow: 0 4px 24px var(--accent-glow);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 8px 40px var(--accent-glow), 0 0 0 1px rgba(124, 106, 255, 0.3);
+  background: var(--accent-light);
+  box-shadow: 0 8px 44px var(--accent-glow), 0 0 0 1px rgba(200, 255, 45, 0.5);
   transform: translateY(-2px);
 }
 
 .btn-outline {
-  background: rgba(124, 106, 255, 0.06);
-  color: var(--accent-light);
+  background: rgba(200, 255, 45, 0.05);
+  color: var(--accent);
   border: 1px solid var(--border-visible);
 }
 
 .btn-outline:hover {
   background: var(--accent-dim);
   border-color: var(--accent);
-  box-shadow: 0 0 20px rgba(124, 106, 255, 0.1);
+  box-shadow: 0 0 24px rgba(200, 255, 45, 0.14);
   transform: translateY(-2px);
 }
 
@@ -265,9 +279,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tag:hover {
-  background: rgba(124, 106, 255, 0.15);
-  border-color: rgba(124, 106, 255, 0.3);
-  box-shadow: 0 0 16px rgba(124, 106, 255, 0.15);
+  background: rgba(200, 255, 45, 0.15);
+  border-color: rgba(200, 255, 45, 0.32);
+  box-shadow: 0 0 16px rgba(200, 255, 45, 0.15);
 }
 
 /* ---------- Links ---------- */
@@ -295,7 +309,7 @@ a {
 
 @keyframes glow-pulse {
   0%, 100% { box-shadow: 0 0 15px var(--accent-glow); }
-  50% { box-shadow: 0 0 35px var(--accent-glow), 0 0 80px rgba(124, 106, 255, 0.1); }
+  50% { box-shadow: 0 0 35px var(--accent-glow), 0 0 80px rgba(200, 255, 45, 0.1); }
 }
 
 @keyframes typing-cursor {
@@ -310,6 +324,49 @@ a {
 
 @keyframes dash {
   to { stroke-dashoffset: 0; }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.6); opacity: 1; }
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-4%, -4%); }
+  20% { transform: translate(-8%, 3%); }
+  30% { transform: translate(5%, -6%); }
+  40% { transform: translate(-3%, 8%); }
+  50% { transform: translate(-8%, 4%); }
+  60% { transform: translate(6%, 2%); }
+  70% { transform: translate(-2%, -7%); }
+  80% { transform: translate(3%, 6%); }
+  90% { transform: translate(-5%, -2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- Stipple / Halftone utilities ---------- */
+.halftone {
+  background-image: radial-gradient(circle, var(--accent) 1px, transparent 1.4px);
+  background-size: 10px 10px;
+}
+
+.halftone-ember {
+  background-image: radial-gradient(circle, var(--cyan) 1px, transparent 1.4px);
+  background-size: 10px 10px;
+}
+
+/* Global film grain overlay */
+.grain-overlay {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 8s steps(10) infinite;
 }
 
 /* ---------- Responsive ---------- */
@@ -331,9 +388,20 @@ a {
   .project-card-grid > div:first-child {
     padding: 20px !important;
     border-right: none !important;
-    border-bottom: 1px solid rgba(124, 106, 255, 0.08);
+    border-bottom: 1px solid rgba(200, 255, 45, 0.08);
     flex-direction: row !important;
   }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain-overlay { animation: none !important; }
 }
 
 /* ---------- Utility ---------- */

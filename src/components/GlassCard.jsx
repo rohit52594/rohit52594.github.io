@@ -56,6 +56,26 @@ export default function GlassCard({
       onMouseLeave={handleMouseLeave}
       {...rest}
     >
+      {/* Subtle halftone corner accent */}
+      <span
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: 110,
+          height: 110,
+          borderTopRightRadius: 'inherit',
+          backgroundImage: 'radial-gradient(circle, var(--accent) 1px, transparent 1.4px)',
+          backgroundSize: '9px 9px',
+          opacity: 0.1,
+          WebkitMaskImage: 'radial-gradient(circle at top right, #000 0%, transparent 70%)',
+          maskImage: 'radial-gradient(circle at top right, #000 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
       {children}
 
       {/* Hover glow border */}

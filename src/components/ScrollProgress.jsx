@@ -12,7 +12,7 @@ export default function ScrollProgress() {
         right: 0,
         height: 3,
         zIndex: 200,
-        background: 'linear-gradient(90deg, #7c6aff, #36d7c7, #ff6b9d)',
+        background: 'linear-gradient(90deg, #c8ff2d, #ff5a1f)',
         transformOrigin: '0%',
         scaleX: scrollYProgress,
       }}
@@ -26,8 +26,8 @@ export default function ScrollProgress() {
           width: 12,
           height: 12,
           borderRadius: '50%',
-          background: '#36d7c7',
-          boxShadow: '0 0 12px rgba(54, 215, 199, 0.6), 0 0 24px rgba(54, 215, 199, 0.3)',
+          background: '#c8ff2d',
+          boxShadow: '0 0 12px rgba(200, 255, 45, 0.7), 0 0 24px rgba(200, 255, 45, 0.35)',
         }}
       />
     </motion.div>

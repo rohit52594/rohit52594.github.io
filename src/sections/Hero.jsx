@@ -3,9 +3,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { profile } from '../data/resume';
 import MagneticButton from '../components/MagneticButton';
 import { useScrollProgress } from '../context/ScrollContext';
-import ParallaxLayer from '../components/ParallaxLayer';
+import StippleText from '../components/StippleText';
+import ParticleNetwork from '../components/ParticleNetwork';
 
-/* ─── Typing effect ─── */
 function TypeWriter({ words, speed = 90, pause = 2000 }) {
   const [text, setText] = useState('');
   const [wordIdx, setWordIdx] = useState(0);
@@ -16,15 +16,10 @@ function TypeWriter({ words, speed = 90, pause = 2000 }) {
     const timeout = setTimeout(() => {
       if (!deleting) {
         setText(word.slice(0, text.length + 1));
-        if (text.length + 1 === word.length) {
-          setTimeout(() => setDeleting(true), pause);
-        }
+        if (text.length + 1 === word.length) setTimeout(() => setDeleting(true), pause);
       } else {
         setText(word.slice(0, text.length - 1));
-        if (text.length === 0) {
-          setDeleting(false);
-          setWordIdx((prev) => (prev + 1) % words.length);
-        }
+        if (text.length === 0) { setDeleting(false); setWordIdx((p) => (p + 1) % words.length); }
       }
     }, deleting ? speed / 2 : speed);
     return () => clearTimeout(timeout);
@@ -52,230 +47,213 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  // Parallax transforms — each layer at different speed
-  const nameY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const nameScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.92]);
-  const nameOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const subtitleY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const ctaY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  const ctaOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const badgeY = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const orbY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const orbScale = useTransform(scrollYProgress, [0, 0.6], [1, 1.3]);
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const nameY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const nameOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
+  const socialOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const sphereY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const sphereScale = useTransform(scrollYProgress, [0, 0.7], [1, 1.15]);
+  const sphereOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.2]);
+  const hintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   return (
     <section
       id="hero"
       ref={sectionRef}
-      style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}
+      className="hero-section"
+      style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', overflowX: 'clip', overflowY: 'visible' }}
     >
-      {/* Decorative gradient orb — deepest layer (0.1x speed) */}
+      {/* ambient glow */}
       <motion.div
+        aria-hidden="true"
         style={{
-          position: 'absolute',
-          top: '15%',
-          left: '50%',
-          width: 'clamp(400px, 50vw, 700px)',
-          height: 'clamp(400px, 50vw, 700px)',
+          position: 'absolute', top: '10%', right: '5%',
+          width: 'clamp(500px, 55vw, 800px)', height: 'clamp(500px, 55vw, 800px)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124, 106, 255, 0.07) 0%, rgba(54, 215, 199, 0.03) 40%, transparent 70%)',
-          filter: 'blur(60px)',
-          pointerEvents: 'none',
-          transform: 'translateX(-50%)',
-          y: orbY,
-          scale: orbScale,
+          background: 'radial-gradient(circle, rgba(200,255,45,0.07) 0%, rgba(255,90,31,0.03) 45%, transparent 70%)',
+          filter: 'blur(70px)', pointerEvents: 'none', zIndex: 0,
         }}
       />
 
-      {/* Floating grid pattern — very slow layer */}
-      <motion.div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          y: gridY,
-          opacity: 0.02,
-          backgroundImage: `
-            linear-gradient(rgba(124, 106, 255, 0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124, 106, 255, 0.3) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div className="container" style={{ position: 'relative', paddingTop: 100, paddingBottom: 80, zIndex: 2 }}>
-        {/* Location tag — fastest layer */}
-        <motion.p
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.7 }}
-          style={{
-            fontSize: 12, color: 'var(--text-muted)',
-            letterSpacing: '0.2em', textTransform: 'uppercase',
-            marginBottom: 36, display: 'flex', alignItems: 'center', gap: 10,
-            fontWeight: 500,
-          }}
-        >
-          <span style={{
-            display: 'inline-block', width: 7, height: 7, borderRadius: '50%',
-            background: '#36d7c7', boxShadow: '0 0 10px rgba(54, 215, 199, 0.6)',
-          }} />
-          {profile.location}
-        </motion.p>
-
-        {/* Name — slow parallax (stays visible longest) */}
-        <motion.div style={{ y: nameY, scale: nameScale, opacity: nameOpacity }}>
-          <motion.h1
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(3.5rem, 10vw, 7.5rem)',
-              fontWeight: 700,
-              lineHeight: 1.0,
-              maxWidth: 900,
-              letterSpacing: '-0.03em',
-            }}
-          >
-            <span className="text-gradient">{profile.name.split(' ')[0]}</span>
-            <br />
-            <span style={{ color: 'var(--text-primary)' }}>{profile.name.split(' ')[1]}</span>
-          </motion.h1>
-        </motion.div>
-
-        {/* Title + Summary — medium parallax */}
-        <motion.div style={{ y: subtitleY }}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            style={{
-              marginTop: 28,
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.3rem, 3vw, 2.4rem)',
-              fontWeight: 400,
-              color: 'var(--text-secondary)',
-            }}
-          >
-            <TypeWriter words={[
-              'Senior Software Engineer',
-              'Scalable Systems Developer',
-              'Full-Stack Engineer',
-            ]} />
-          </motion.div>
-
+      <div className="container hero-grid" style={{ flex: 1, position: 'relative', zIndex: 2, paddingTop: 100, paddingBottom: 120 }}>
+        {/* ── Left column: identity + content ── */}
+        <div className="hero-left">
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.7 }}
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
             style={{
-              marginTop: 24, fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)',
-              color: 'var(--text-muted)', maxWidth: 520, lineHeight: 1.9,
+              fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.2em',
+              textTransform: 'uppercase', marginBottom: 32, display: 'flex', alignItems: 'center', gap: 10, fontWeight: 500,
             }}
           >
-            Building scalable enterprise & AI-driven applications with React.js,
-            TypeScript, and Node.js. 7+ years of shipping production-grade software.
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%', background: 'var(--accent)',
+              boxShadow: '0 0 10px var(--accent-glow)', animation: 'dot-pulse 2.4s ease-in-out infinite',
+            }} />
+            {profile.location}
           </motion.p>
-        </motion.div>
 
-        {/* CTA buttons — fast parallax (fades early) */}
-        <motion.div style={{ y: ctaY, opacity: ctaOpacity }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.6 }}
-            style={{ marginTop: 48, display: 'flex', flexWrap: 'wrap', gap: 16 }}
-          >
-            <MagneticButton variant="primary" onClick={() => scrollTo('experience')}>
-              View Experience
-            </MagneticButton>
-            <MagneticButton variant="outline" href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Resume
-            </MagneticButton>
+          <motion.div style={{ y: nameY, opacity: nameOpacity }}>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h1 className="sr-only">{profile.name}</h1>
+              <StippleText text={profile.name.split(' ')[0]} fontSize={140} gap={4} />
+              <StippleText text={profile.name.split(' ')[1]} fontSize={140} gap={4} style={{ marginTop: -6 }} />
+            </motion.div>
           </motion.div>
-        </motion.div>
 
-        {/* Social row */}
-        <motion.div style={{ y: ctaY, opacity: ctaOpacity }}>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.6 }}
-            style={{
-              marginTop: 56, display: 'flex', flexWrap: 'wrap', gap: 32,
-              paddingTop: 28, borderTop: '1px solid var(--border-subtle)',
-            }}
-          >
-            {[
-              { label: profile.email, href: `mailto:${profile.email}` },
-              { label: 'LinkedIn', href: profile.social.linkedin },
-              { label: 'GitHub', href: profile.social.github },
-            ].map(({ label, href }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                className="link-glow" style={{ fontSize: 13, fontWeight: 500 }}>
-                {label}
-              </a>
-            ))}
+          <motion.div style={{ y: contentY, opacity: contentOpacity }}>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.7 }}
+              style={{
+                marginTop: 24, fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.2rem, 2.6vw, 2.2rem)', fontWeight: 400, color: 'var(--text-secondary)',
+              }}
+            >
+              <TypeWriter words={['Senior Software Engineer', 'Scalable Systems Developer', 'Full-Stack Engineer']} />
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.7 }}
+              style={{
+                marginTop: 20, fontSize: 'clamp(0.92rem, 1.4vw, 1.05rem)',
+                color: 'var(--text-muted)', maxWidth: 480, lineHeight: 1.9,
+              }}
+            >
+              Building scalable enterprise & AI-driven applications with React.js,
+              TypeScript, and Node.js. 7+ years of shipping production-grade software.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              style={{ marginTop: 40, display: 'flex', flexWrap: 'wrap', gap: 14 }}
+            >
+              <MagneticButton variant="primary" onClick={() => scrollTo('experience')}>View Experience</MagneticButton>
+              <MagneticButton variant="outline" href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Resume
+              </MagneticButton>
+            </motion.div>
           </motion.div>
-        </motion.div>
 
-        {/* Floating stats badge — slowest parallax */}
+          <motion.div style={{ opacity: socialOpacity }}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.6 }}
+              className="hero-social"
+              style={{
+                marginTop: 44, display: 'flex', flexWrap: 'wrap', gap: 24,
+                paddingTop: 24, borderTop: '1px solid var(--border-subtle)',
+              }}
+            >
+              {[
+                { label: profile.email, href: `mailto:${profile.email}` },
+                { label: 'LinkedIn', href: profile.social.linkedin },
+                { label: 'GitHub', href: profile.social.github },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  className="link-glow" data-cursor="hover" style={{ fontSize: 13, fontWeight: 500 }}>
+                  {label}
+                </a>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* ── Right column: signature sphere ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          className="hero-right"
+          initial={{ opacity: 0, scale: 0.82 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: 'absolute',
-            top: 'clamp(100px, 16vh, 180px)',
-            right: 'clamp(0px, 3vw, 60px)',
-            y: badgeY,
-          }}
-          className="hero-badge"
+          transition={{ delay: 0.45, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          style={{ y: sphereY, scale: sphereScale, opacity: sphereOpacity }}
         >
-          <div style={{
-            padding: '24px 32px', borderRadius: 20,
-            background: 'rgba(10, 10, 30, 0.5)',
-            backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-            border: '1px solid rgba(124, 106, 255, 0.1)',
-            animation: 'float 7s ease-in-out infinite',
-          }}>
-            <div style={{ fontSize: 36, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#7c6aff' }}>7+</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: 6 }}>
-              Years Experience
-            </div>
+          <div className="hero-sphere-wrap">
+            <div className="hero-sphere-glow" aria-hidden="true" />
+            <ParticleNetwork count={170} scrollProgress={scrollYProgress} style={{ width: '100%', height: '100%' }} />
           </div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6 }}
-          style={{
-            position: 'absolute', bottom: 40, left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
-          }}
-          className="hero-scroll-hint"
-        >
-          <span style={{ fontSize: 9, letterSpacing: '0.35em', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 500 }}>Scroll</span>
-          <motion.div
-            animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.2, 0.7, 0.2] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ width: 1, height: 48, background: 'linear-gradient(to bottom, var(--accent), transparent)' }}
-          />
         </motion.div>
       </div>
 
+      {/* Scroll hint — section-level, never overlaps social links */}
+      <motion.div
+        className="hero-scroll-hint"
+        style={{ opacity: hintOpacity }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6 }}
+      >
+        <span style={{ fontSize: 9, letterSpacing: '0.35em', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 500 }}>Scroll</span>
+        <motion.div
+          animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.2, 0.7, 0.2] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ width: 1, height: 40, background: 'linear-gradient(to bottom, var(--accent), transparent)' }}
+        />
+      </motion.div>
+
       <style>{`
-        @media (max-width: 768px) {
-          .hero-badge { display: none !important; }
-          .hero-scroll-hint { display: none !important; }
+        .hero-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          align-items: center;
+          gap: clamp(16px, 3vw, 40px);
+          min-height: calc(100vh - 180px);
+        }
+        .hero-left { max-width: 620px; }
+        .hero-right {
+          display: flex; align-items: center; justify-content: center;
+          min-height: clamp(420px, 50vw, 680px);
+          overflow: visible;
+        }
+        .hero-sphere-wrap {
+          position: relative;
+          width: clamp(400px, 44vw, 660px);
+          height: clamp(400px, 44vw, 660px);
+          margin: 0 auto;
+        }
+        .hero-sphere-glow {
+          position: absolute; inset: 0; border-radius: 50%;
+          background: radial-gradient(circle, rgba(200,255,45,0.12) 0%, rgba(255,90,31,0.06) 40%, transparent 72%);
+          filter: blur(40px); pointer-events: none;
+        }
+        .hero-scroll-hint {
+          position: absolute; bottom: 28px; left: 50%;
+          transform: translateX(-50%);
+          display: flex; flex-direction: column; align-items: center; gap: 8;
+          z-index: 5; pointer-events: none;
+        }
+        @media (max-width: 960px) {
+          .hero-grid { grid-template-columns: 1fr; min-height: auto; gap: 8px; }
+          .hero-right {
+            order: -1;
+            min-height: clamp(240px, 64vw, 320px);
+            opacity: 0.5 !important;
+            margin-bottom: 8px;
+          }
+          .hero-sphere-wrap {
+            width: min(50vw, 200px);
+            height: min(50vw, 200px);
+          }
+          .hero-left { max-width: 100%; }
+        }
+        @media (max-width: 600px) {
+          .hero-scroll-hint { display: none; }
+          .hero-social { gap: 16px !important; }
+          .hero-social a { font-size: 12px !important; }
         }
       `}</style>
     </section>
